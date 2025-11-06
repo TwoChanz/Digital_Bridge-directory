@@ -241,14 +241,14 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
                   <Card key={tool.id} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
                       <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-3">
+                        <Link href={`/tool/${tool.slug}`} className="flex items-center space-x-3 flex-1 min-w-0">
                           <img
                             src={getToolLogoUrl(tool.logoUrl, tool.website)}
                             alt={`${tool.name} logo`}
                             className="w-12 h-12 rounded-lg object-cover"
                           />
                           <div>
-                            <CardTitle className="text-lg flex items-center gap-2">
+                            <CardTitle className="text-lg flex items-center gap-2 hover:text-primary transition-colors">
                               {tool.name}
                               {tool.verified && (
                                 <Badge variant="secondary" className="text-xs">
@@ -268,7 +268,7 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
                               <span className="text-xs text-gray-600">({tool.reviewCount})</span>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                         {tool.sponsored && <Badge className="bg-yellow-100 text-yellow-800">Sponsored</Badge>}
                       </div>
                     </CardHeader>
@@ -319,23 +319,27 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
                   <Card key={tool.id} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
                       <div className="flex items-start space-x-4">
-                        <img
-                          src={getToolLogoUrl(tool.logoUrl, tool.website)}
-                          alt={`${tool.name} logo`}
-                          className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                        />
+                        <Link href={`/tool/${tool.slug}`}>
+                          <img
+                            src={getToolLogoUrl(tool.logoUrl, tool.website)}
+                            alt={`${tool.name} logo`}
+                            className="w-16 h-16 rounded-lg object-cover flex-shrink-0 hover:opacity-80 transition-opacity"
+                          />
+                        </Link>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between mb-2">
                             <div>
-                              <h3 className="text-xl font-semibold flex items-center gap-2">
-                                {tool.name}
-                                {tool.verified && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    Verified
-                                  </Badge>
-                                )}
-                                {tool.sponsored && <Badge className="bg-yellow-100 text-yellow-800">Sponsored</Badge>}
-                              </h3>
+                              <Link href={`/tool/${tool.slug}`}>
+                                <h3 className="text-xl font-semibold flex items-center gap-2 hover:text-primary transition-colors">
+                                  {tool.name}
+                                  {tool.verified && (
+                                    <Badge variant="secondary" className="text-xs">
+                                      Verified
+                                    </Badge>
+                                  )}
+                                  {tool.sponsored && <Badge className="bg-yellow-100 text-yellow-800">Sponsored</Badge>}
+                                </h3>
+                              </Link>
                               <div className="flex items-center space-x-2 mt-1">
                                 <div className="flex items-center space-x-1">
                                   <div className="flex text-yellow-400">
