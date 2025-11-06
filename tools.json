@@ -1,0 +1,85 @@
+// tools-import.ts
+// Run this script in a Node.js or Vite/Next.js setup (with .env for Supabase keys)
+
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+
+// === Load environment variables ===
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY! // Required for RLS bypass
+);
+
+// === Load JSON tool data ===
+const toolsData = JSON.parse(fs.readFileSync('./tools.json', 'utf-8'));
+
+async function ensureRecord(table: string, match: any, insert: any) {
+  const { data, error } = await supabase.from(table).upsert(insert, {
+    onConflict: Object.keys(match).join(', '),
+    returning: 'minimal',
+  });
+  if (error) console.error(`Error upserting ${table}`, error);
+  return data;
+}
+
+async function getIdBySlug(table: string, slug: string) {
+  const { data, error } = await supabase.from(table).select('id').eq('slug', slug).single();
+  if (error) console.error(`Error fetching ${table} ID for ${slug}`, error);
+  return data?.id;
+}
+
+async function runImport() {
+  for (const tool of toolsData) {
+    // 1. Ensure category exists
+    await ensureRecord('categories', { slug: tool.category_slug }, {
+      slug: tool.category_slug,
+      name: tool.category_slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+    });
+
+    const categoryId = await getIdBySlug('categories', tool.category_slug);
+
+    // 2. Insert tool
+    await ensureRecord('tools', { slug: tool.slug }, {
+      slug: tool.slug,
+      name: tool.name,
+      tagline: tool.tagline,
+      short_description: tool.short_description,
+      website_url: tool.website_url,
+      affiliate_url: tool.affiliate_url,
+      logo_url: tool.logo_url,
+      category_id: categoryId,
+    });
+
+    const toolId = await getIdBySlug('tools', tool.slug);
+
+    // 3. Tags
+    for (const tag of tool.tags || []) {
+      const tagSlug = tag.toLowerCase().replace(/ /g, '-');
+      await ensureRecord('tags', { slug: tagSlug }, { slug: tagSlug, name: tag });
+      const tagId = await getIdBySlug('tags', tagSlug);
+      await ensureRecord('tool_tags', { tool_id: toolId, tag_id: tagId }, { tool_id: toolId, tag_id: tagId });
+    }
+
+    // 4. Platforms
+    for (const plat of tool.platforms || []) {
+      const platSlug = plat.toLowerCase().replace(/ /g, '-');
+      await ensureRecord('platforms', { slug: platSlug }, { slug: platSlug, name: plat });
+      const platId = await getIdBySlug('platforms', platSlug);
+      await ensureRecord('tool_platforms', { tool_id: toolId, platform_id: platId }, { tool_id: toolId, platform_id: platId });
+    }
+
+    // 5. Pricing tiers
+    for (const tier of tool.pricing_tiers || []) {
+      const tierSlug = tier.toLowerCase().replace(/ /g, '-');
+      await ensureRecord('pricing_tiers', { slug: tierSlug }, { slug: tierSlug, name: tier });
+      const tierId = await getIdBySlug('pricing_tiers', tierSlug);
+      await ensureRecord('tool_pricing_tiers', { tool_id: toolId, pricing_tier_id: tierId }, { tool_id: toolId, pricing_tier_id: tierId });
+    }
+
+    console.log(`✅ Inserted tool: ${tool.name}`);
+  }
+
+  console.log('🎉 All tools imported.');
+}
+
+runImport();
