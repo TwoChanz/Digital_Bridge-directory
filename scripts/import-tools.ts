@@ -12,9 +12,13 @@
  *   npx tsx scripts/import-tools.ts
  */
 
+import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { categories, tools } from '../lib/data'
 import type { Database } from '../lib/supabase'
+
+// Load environment variables from .env.local
+config({ path: '.env.local' })
 
 // Load environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
