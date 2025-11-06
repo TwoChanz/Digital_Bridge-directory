@@ -3,11 +3,13 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { Star, ExternalLink, CheckCircle, ArrowRight } from "lucide-react"
+import { Star, ExternalLink, CheckCircle, ArrowRight, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { SearchButton } from "@/components/search-button"
+import { CompareButton } from "@/components/compare-button"
 import { fetchToolBySlug, fetchToolsByCategory } from "@/lib/data-supabase"
 import { getToolLogoUrl, buildAffiliateUrl, getCtaButtonText } from "@/lib/helpers"
 import type { Tool } from "@/types"
@@ -111,6 +113,30 @@ export default async function ToolDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      {/* Header */}
+      <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-gray-900/95 dark:supports-[backdrop-filter]:bg-gray-900/60 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-2">
+              <Building2 className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">Digital Blueprint</span>
+            </Link>
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link href="/categories" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                Categories
+              </Link>
+              <Link href="/blog" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                Blog
+              </Link>
+              <Link href="/submit" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                Submit Tool
+              </Link>
+              <SearchButton />
+            </nav>
+          </div>
+        </div>
+      </header>
 
       {/* Breadcrumbs */}
       <div className="border-b">
@@ -216,6 +242,14 @@ export default async function ToolDetailPage({
                   <ExternalLink className="h-4 w-4" />
                 </Button>
               </Link>
+
+              <CompareButton
+                toolSlug={tool.slug}
+                toolName={tool.name}
+                variant="outline"
+                size="lg"
+                showDropdown
+              />
 
               <div className="text-center text-sm text-muted-foreground">
                 <div className="font-semibold text-foreground">

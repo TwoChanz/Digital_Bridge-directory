@@ -189,6 +189,55 @@ export async function fetchToolBySlug(slug: string): Promise<Tool | undefined> {
 }
 
 /**
+ * Fetch platform statistics
+ */
+export async function fetchStats(): Promise<{
+  totalTools: number
+  totalCategories: number
+  totalViews: number
+}> {
+  if (!isSupabaseConfigured()) {
+    return {
+      totalTools: mockTools.length,
+      totalCategories: mockCategories.length,
+      totalViews: mockTools.reduce((sum, tool) => sum + tool.views, 0),
+    }
+  }
+
+  try {
+    // Get total tools count
+    const { count: toolsCount } = await supabase
+      .from('tools')
+      .select('*', { count: 'exact', head: true })
+
+    // Get total categories count
+    const { count: categoriesCount } = await supabase
+      .from('categories')
+      .select('*', { count: 'exact', head: true })
+
+    // Get total views
+    const { data: viewsData } = await supabase
+      .from('tools')
+      .select('views')
+
+    const totalViews = viewsData?.reduce((sum, tool) => sum + (tool.views || 0), 0) || 0
+
+    return {
+      totalTools: toolsCount || 0,
+      totalCategories: categoriesCount || 0,
+      totalViews,
+    }
+  } catch (error) {
+    console.error('Error fetching stats from Supabase:', error)
+    return {
+      totalTools: mockTools.length,
+      totalCategories: mockCategories.length,
+      totalViews: mockTools.reduce((sum, tool) => sum + tool.views, 0),
+    }
+  }
+}
+
+/**
  * Fetch all tools
  */
 export async function fetchAllTools(): Promise<Tool[]> {

@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import { SearchButton } from "@/components/search-button"
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/data"
 import { getToolLogoUrl, buildAffiliateUrl, getCtaButtonText } from "@/lib/helpers"
 import { notFound } from "next/navigation"
@@ -80,6 +81,7 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
               <Link href="/submit" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Submit Tool
               </Link>
+              <SearchButton />
             </nav>
           </div>
         </div>
