@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react"
 import { Search, Filter, Grid, List, Star, ExternalLink, Building2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -13,7 +13,8 @@ import { getCategoryBySlug, getToolsByCategory } from "@/lib/data"
 import { getToolLogoUrl, buildAffiliateUrl, getCtaButtonText } from "@/lib/helpers"
 import { notFound } from "next/navigation"
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [sortBy, setSortBy] = useState("sponsored")
   const [searchQuery, setSearchQuery] = useState("")
@@ -21,7 +22,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   const [selectedPricing, setSelectedPricing] = useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  const category = getCategoryBySlug(params.slug)
+  const category = getCategoryBySlug(slug)
   const allTools = category ? getToolsByCategory(category.slug) : []
 
   if (!category) {
