@@ -38,17 +38,29 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-### 4. Import Data (Optional)
-If you want to populate the database with existing tool data:
+### 4. Import Data (Recommended)
+Populate your database with 35 production-ready AEC tools across 6 categories:
 
-```bash
-npm run import-tools
-```
+**Important:** You need the **Service Role Key** for this step.
+1. In Supabase dashboard, go to **Settings** → **API**
+2. Find **Service Role Key** (keep this secret!)
+3. Add it to `.env.local`:
+   ```bash
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   ```
 
-Or run the import script manually:
-```bash
-npx tsx scripts/import-tools.ts
-```
+4. Run the import script:
+   ```bash
+   npm run import-tools
+   ```
+
+This will import:
+- 6 categories (BIM, Project Management, Drone Mapping, AR/VR, Estimating, Field Tools)
+- 35 tools with complete data (names, descriptions, pricing, ratings, logos)
+- Tags and platforms for each tool
+- All relationships between tools, tags, and platforms
+
+The script uses **upsert** strategy, so it's safe to run multiple times.
 
 ## Database Schema Overview
 
