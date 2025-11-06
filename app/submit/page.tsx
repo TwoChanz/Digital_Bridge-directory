@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { use, useState } from "react"
 import { Upload, Building2, Plus, X, Crown } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -37,8 +37,9 @@ const pricingTypes = [
   { value: "custom", label: "Custom Pricing" },
 ]
 
-export default function SubmitToolPage({ searchParams }: { searchParams: { plan?: string } }) {
-  const selectedPlan = searchParams?.plan || "free"
+export default function SubmitToolPage({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
+  const params = use(searchParams)
+  const selectedPlan = params?.plan || "free"
   const [formData, setFormData] = useState({
     toolName: "",
     category: "",

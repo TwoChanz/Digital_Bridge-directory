@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { use, useEffect } from "react"
 import { logEvent } from "@/lib/analytics"
 import { Star, Play, Calendar, Users, Globe, CheckCircle, ArrowRight, Building2 } from "lucide-react"
 import Link from "next/link"
@@ -112,8 +112,9 @@ const similarTools = [
   },
 ]
 
-export default function ToolPage({ params }: { params: { id: string } }) {
-  const tool = toolData[params.id as keyof typeof toolData]
+export default function ToolPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
+  const tool = toolData[id as keyof typeof toolData]
 
   useEffect(() => {
     if (tool) {
