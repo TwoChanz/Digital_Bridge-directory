@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/data"
+import { getToolLogoUrl, buildAffiliateUrl, getCtaButtonText } from "@/lib/helpers"
 import { notFound } from "next/navigation"
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
@@ -241,7 +242,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                       <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-3">
                           <img
-                            src={tool.logo || "/placeholder.svg"}
+                            src={getToolLogoUrl(tool.logoUrl, tool.website)}
                             alt={`${tool.name} logo`}
                             className="w-12 h-12 rounded-lg object-cover"
                           />
@@ -298,10 +299,14 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                       </div>
 
                       <Button asChild className="w-full">
-                        <Link href={`/tool/${tool.id}`}>
-                          View Tool
+                        <a
+                          href={buildAffiliateUrl(tool.affiliateUrl || tool.website, tool.slug)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {getCtaButtonText(tool.linkType)}
                           <ExternalLink className="h-4 w-4 ml-2" />
-                        </Link>
+                        </a>
                       </Button>
                     </CardContent>
                   </Card>
@@ -314,7 +319,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     <CardContent className="p-6">
                       <div className="flex items-start space-x-4">
                         <img
-                          src={tool.logo || "/placeholder.svg"}
+                          src={getToolLogoUrl(tool.logoUrl, tool.website)}
                           alt={`${tool.name} logo`}
                           className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                         />
@@ -377,10 +382,14 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                             </div>
 
                             <Button asChild>
-                              <Link href={`/tool/${tool.id}`}>
-                                View Tool
+                              <a
+                                href={buildAffiliateUrl(tool.affiliateUrl || tool.website, tool.slug)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {getCtaButtonText(tool.linkType)}
                                 <ExternalLink className="h-4 w-4 ml-2" />
-                              </Link>
+                              </a>
                             </Button>
                           </div>
                         </div>
