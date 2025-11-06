@@ -35,11 +35,15 @@ pnpm lint
   - Special files: `layout.tsx` (root layout), `loading.tsx` (loading states), `head.tsx`
 
 ### Data Layer
-- **Supabase integration**: Planned but not yet implemented in codebase
-  - `scripts/import-tools.ts` contains the data import logic for Supabase tables
-  - Schema includes: `tools`, `categories`, `tags`, `platforms`, `pricing_tiers` and junction tables
-  - Environment variables needed: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- **Current state**: Frontend uses hardcoded data arrays in components (not connected to backend yet)
+- **Supabase integration**: Phase 2 completed - backend configured with automatic fallback
+  - `lib/supabase.ts`: Supabase client initialization with TypeScript types
+  - `lib/data-supabase.ts`: Data fetching functions with automatic fallback to mock data
+  - `lib/data.ts`: Centralized mock data (35 tools across 6 categories)
+  - `scripts/supabase/001-create-tables.sql`: Complete database schema
+  - Schema includes: `categories`, `tools`, `tags`, `platforms` and junction tables (`tool_tags`, `tool_platforms`)
+  - Environment variables configured in `.env.local`
+- **Current state**: App uses mock data until database schema is run in Supabase SQL Editor
+- **Automatic fallback**: If Supabase is not configured, app automatically uses mock data from `lib/data.ts`
 
 ### Component Architecture
 - **UI Components**: ShadCN UI library components in `components/ui/`
@@ -85,8 +89,21 @@ For data import script, also needs:
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-## Known Gaps
-- Supabase client not initialized in frontend code yet (no `lib/supabase.ts` or similar)
-- Frontend components use mock data instead of fetching from Supabase
-- No actual database schema files or migrations in repository
-- Import script exists but may need updates to match actual Supabase setup
+## Current Status & Next Steps
+
+### Completed (Phase 1 & 2)
+- TypeScript types defined in `types/index.ts`
+- Centralized data layer with 35 production tools
+- Category routing and dynamic pages
+- Affiliate link tracking with UTM parameters
+- Clearbit logo integration
+- Next.js 15 compatibility fixes (React.use() for params/searchParams)
+- Supabase client configuration and data layer
+- Database schema with RLS policies
+- Automatic fallback to mock data
+
+### Pending
+- **Database initialization**: Run `scripts/supabase/001-create-tables.sql` in Supabase SQL Editor
+- **Data import**: Optionally import existing tools to Supabase database
+- **Frontend migration**: Update components to use `lib/data-supabase.ts` instead of `lib/data.ts`
+- **Phase 3+**: SEO optimization, blog integration, monetization features (see ROADMAP.md)
