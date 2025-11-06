@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Filter, Grid, List, Star, ExternalLink } from "lucide-react"
+import { Search, Filter, Grid, List, Star, ExternalLink, Building2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,117 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-
-// Mock data - in real app, this would come from your database
-const tools = [
-  {
-    id: "revit",
-    name: "Autodesk Revit",
-    description: "Industry-leading BIM software for architectural design, MEP engineering, and structural engineering.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.5,
-    reviewCount: 1250,
-    pricing: "From $290/month",
-    pricingType: "paid",
-    platforms: ["Windows"],
-    tags: ["BIM", "Architecture", "MEP", "Structural", "Revit"],
-    verified: true,
-    sponsored: true,
-    views: 15420,
-    category: "BIM Software",
-  },
-  {
-    id: "archicad",
-    name: "ARCHICAD",
-    description: "Powerful BIM software solution for architects with advanced design and documentation capabilities.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.3,
-    reviewCount: 890,
-    pricing: "From $270/month",
-    pricingType: "paid",
-    platforms: ["Windows", "Mac"],
-    tags: ["BIM", "Architecture", "Design", "Documentation"],
-    verified: true,
-    sponsored: false,
-    views: 8930,
-    category: "BIM Software",
-  },
-  {
-    id: "tekla",
-    name: "Tekla Structures",
-    description:
-      "Advanced structural BIM software for steel and concrete detailing with precise modeling capabilities.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.4,
-    reviewCount: 650,
-    pricing: "Custom pricing",
-    pricingType: "paid",
-    platforms: ["Windows"],
-    tags: ["BIM", "Structural", "Steel", "Concrete", "Detailing"],
-    verified: true,
-    sponsored: false,
-    views: 6750,
-    category: "BIM Software",
-  },
-  {
-    id: "freecad",
-    name: "FreeCAD",
-    description:
-      "Open-source parametric 3D CAD modeler with BIM capabilities for architectural and engineering projects.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 3.8,
-    reviewCount: 420,
-    pricing: "Free",
-    pricingType: "free",
-    platforms: ["Windows", "Mac", "Linux"],
-    tags: ["BIM", "Open Source", "CAD", "Parametric"],
-    verified: false,
-    sponsored: false,
-    views: 3240,
-    category: "BIM Software",
-  },
-  {
-    id: "vectorworks",
-    name: "Vectorworks Architect",
-    description: "Comprehensive BIM and CAD software for architects with advanced rendering and documentation tools.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.2,
-    reviewCount: 780,
-    pricing: "From $299/month",
-    pricingType: "paid",
-    platforms: ["Windows", "Mac"],
-    tags: ["BIM", "Architecture", "CAD", "Rendering"],
-    verified: true,
-    sponsored: false,
-    views: 5680,
-    category: "BIM Software",
-  },
-  {
-    id: "allplan",
-    name: "Allplan",
-    description:
-      "Professional BIM software for architects and engineers with integrated design and construction workflows.",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.1,
-    reviewCount: 340,
-    pricing: "From $199/month",
-    pricingType: "paid",
-    platforms: ["Windows"],
-    tags: ["BIM", "Architecture", "Engineering", "Construction"],
-    verified: true,
-    sponsored: false,
-    views: 4120,
-    category: "BIM Software",
-  },
-]
-
-const categories = {
-  "bim-software": {
-    name: "BIM Software",
-    description: "Building Information Modeling tools for design, documentation, and collaboration",
-    count: 45,
-  },
-}
+import { getCategoryBySlug, getToolsByCategory } from "@/lib/data"
+import { notFound } from "next/navigation"
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -129,13 +20,14 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   const [selectedPricing, setSelectedPricing] = useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  const category = categories[params.slug as keyof typeof categories]
+  const category = getCategoryBySlug(params.slug)
+  const allTools = category ? getToolsByCategory(category.slug) : []
 
   if (!category) {
-    return <div>Category not found</div>
+    notFound()
   }
 
-  const filteredTools = tools.filter((tool) => {
+  const filteredTools = allTools.filter((tool) => {
     const matchesSearch =
       tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tool.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -169,21 +61,21 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white">
+      <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-gray-900/95 dark:supports-[backdrop-filter]:bg-gray-900/60 dark:border-gray-800">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 bg-blue-600 rounded"></div>
-              <span className="text-2xl font-bold">ConstructTech</span>
+              <Building2 className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">Digital Blueprint</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/categories" className="text-gray-600 hover:text-gray-900">
+              <Link href="/categories" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Categories
               </Link>
-              <Link href="/blog" className="text-gray-600 hover:text-gray-900">
+              <Link href="/blog" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Blog
               </Link>
-              <Link href="/submit" className="text-gray-600 hover:text-gray-900">
+              <Link href="/submit" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Submit Tool
               </Link>
             </nav>
@@ -194,28 +86,28 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <li>
-              <Link href="/" className="hover:text-gray-700">
+              <Link href="/" className="hover:text-gray-700 dark:hover:text-gray-300">
                 Home
               </Link>
             </li>
             <li>/</li>
             <li>
-              <Link href="/categories" className="hover:text-gray-700">
+              <Link href="/categories" className="hover:text-gray-700 dark:hover:text-gray-300">
                 Categories
               </Link>
             </li>
             <li>/</li>
-            <li className="text-gray-900">{category.name}</li>
+            <li className="text-gray-900 dark:text-white">{category.name}</li>
           </ol>
         </nav>
 
         {/* Category Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{category.name}</h1>
-          <p className="text-gray-600 mb-4">{category.description}</p>
-          <Badge variant="secondary">{category.count} tools available</Badge>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{category.name}</h1>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">{category.description}</p>
+          <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300">{category.count} tools available</Badge>
         </div>
 
         {/* Search and Filters */}
