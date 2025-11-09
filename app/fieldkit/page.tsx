@@ -122,7 +122,7 @@ export default function FieldKitPage() {
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <div className={`p-3 rounded-lg ${category.color} text-white`}>
-                          <IconComponent className="h-6 w-6" />
+                          {IconComponent && <IconComponent className="h-6 w-6" />}
                         </div>
                         <Badge variant="secondary">{category.count} items</Badge>
                       </div>
