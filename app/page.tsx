@@ -120,6 +120,12 @@ export default async function HomePage() {
               >
                 Categories
               </Link>
+              <Link
+                href="/fieldkit"
+                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              >
+                🧰 FieldKit
+              </Link>
               <Link href="/blog" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Blog
               </Link>
@@ -204,6 +210,38 @@ export default async function HomePage() {
             <div className="flex items-center">
               <Users className="h-4 w-4 mr-1" />
               <span className="font-semibold">{(stats.totalViews / 1000).toFixed(0)}K+ Views</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FieldKit Callout */}
+      <section className="py-12 bg-gradient-to-r from-slate-900 to-blue-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="lg:w-2/3 mb-6 lg:mb-0">
+              <div className="flex items-center mb-4">
+                <span className="text-3xl mr-3">🧰</span>
+                <h2 className="text-3xl font-bold">Introducing FieldKit</h2>
+              </div>
+              <p className="text-xl text-blue-100 mb-4">
+                Your Reality Capture Hardware Directory
+              </p>
+              <p className="text-blue-200 max-w-2xl">
+                Discover, compare, and find the best field gear for AEC professionals. From 3D scanners to drones, GNSS to accessories — all in one place.
+              </p>
+            </div>
+            <div className="lg:w-1/3 text-center lg:text-right">
+              <Button size="lg" variant="secondary" asChild className="mb-4">
+                <Link href="/fieldkit">
+                  Explore FieldKit →
+                </Link>
+              </Button>
+              <div className="flex justify-center lg:justify-end space-x-4 text-sm text-blue-200">
+                <span>🔍 Scanners</span>
+                <span>🚁 Drones</span>
+                <span>📡 GNSS</span>
+              </div>
             </div>
           </div>
         </div>
