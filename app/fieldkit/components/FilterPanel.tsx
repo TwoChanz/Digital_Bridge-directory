@@ -1,12 +1,11 @@
 import React from 'react'
-import { Search, Filter, X } from 'lucide-react'
+import { Search, Filter, X, ChevronDown } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 interface FilterPanelProps {
   searchQuery: string
@@ -96,84 +95,66 @@ export default function FilterPanel({
 
       {/* Brands Filter */}
       <Card>
-        <Collapsible defaultOpen>
-          <CollapsibleTrigger asChild>
-            <CardHeader className="pb-3 cursor-pointer hover:bg-gray-50">
-              <CardTitle className="text-lg">Brands</CardTitle>
-            </CardHeader>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <CardContent className="space-y-3">
-              {availableBrands.map((brand) => (
-                <div key={brand} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`brand-${brand}`}
-                    checked={selectedBrands.includes(brand)}
-                    onCheckedChange={(checked) => onBrandChange(brand, checked as boolean)}
-                  />
-                  <Label htmlFor={`brand-${brand}`} className="text-sm">
-                    {brand}
-                  </Label>
-                </div>
-              ))}
-            </CardContent>
-          </CollapsibleContent>
-        </Collapsible>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">Brands</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {availableBrands.map((brand) => (
+            <div key={brand} className="flex items-center space-x-2">
+              <Checkbox
+                id={`brand-${brand}`}
+                checked={selectedBrands.includes(brand)}
+                onCheckedChange={(checked) => onBrandChange(brand, checked as boolean)}
+              />
+              <Label htmlFor={`brand-${brand}`} className="text-sm">
+                {brand}
+              </Label>
+            </div>
+          ))}
+        </CardContent>
       </Card>
 
       {/* Pricing Type Filter */}
       <Card>
-        <Collapsible defaultOpen>
-          <CollapsibleTrigger asChild>
-            <CardHeader className="pb-3 cursor-pointer hover:bg-gray-50">
-              <CardTitle className="text-lg">Pricing</CardTitle>
-            </CardHeader>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <CardContent className="space-y-3">
-              {pricingTypes.map((pricing) => (
-                <div key={pricing.value} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`pricing-${pricing.value}`}
-                    checked={selectedPricingTypes.includes(pricing.value)}
-                    onCheckedChange={(checked) => onPricingTypeChange(pricing.value, checked as boolean)}
-                  />
-                  <Label htmlFor={`pricing-${pricing.value}`} className="text-sm">
-                    {pricing.label}
-                  </Label>
-                </div>
-              ))}
-            </CardContent>
-          </CollapsibleContent>
-        </Collapsible>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">Pricing</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {pricingTypes.map((pricing) => (
+            <div key={pricing.value} className="flex items-center space-x-2">
+              <Checkbox
+                id={`pricing-${pricing.value}`}
+                checked={selectedPricingTypes.includes(pricing.value)}
+                onCheckedChange={(checked) => onPricingTypeChange(pricing.value, checked as boolean)}
+              />
+              <Label htmlFor={`pricing-${pricing.value}`} className="text-sm">
+                {pricing.label}
+              </Label>
+            </div>
+          ))}
+        </CardContent>
       </Card>
 
       {/* Tags Filter */}
       {availableTags.length > 0 && (
         <Card>
-          <Collapsible>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="pb-3 cursor-pointer hover:bg-gray-50">
-                <CardTitle className="text-lg">Tags</CardTitle>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent className="space-y-3">
-                {availableTags.slice(0, 10).map((tag) => (
-                  <div key={tag} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`tag-${tag}`}
-                      checked={selectedTags.includes(tag)}
-                      onCheckedChange={(checked) => onTagChange(tag, checked as boolean)}
-                    />
-                    <Label htmlFor={`tag-${tag}`} className="text-sm">
-                      {tag}
-                    </Label>
-                  </div>
-                ))}
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Tags</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {availableTags.slice(0, 10).map((tag) => (
+              <div key={tag} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`tag-${tag}`}
+                  checked={selectedTags.includes(tag)}
+                  onCheckedChange={(checked) => onTagChange(tag, checked as boolean)}
+                />
+                <Label htmlFor={`tag-${tag}`} className="text-sm">
+                  {tag}
+                </Label>
+              </div>
+            ))}
+          </CardContent>
         </Card>
       )}
     </div>
