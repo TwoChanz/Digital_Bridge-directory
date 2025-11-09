@@ -193,6 +193,129 @@ export type Database = {
           created_at?: string
         }
       }
+      gear_categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string
+          color: string | null
+          icon: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          description: string
+          color?: string | null
+          icon?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          description?: string
+          color?: string | null
+          icon?: string | null
+          created_at?: string
+        }
+      }
+      gear: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          brand: string
+          model: string
+          description: string
+          short_description: string | null
+          website: string
+          affiliate_url: string | null
+          link_type: string | null
+          image_url: string | null
+          rating: number
+          review_count: number
+          pricing: string
+          pricing_type: string
+          category_id: string
+          verified: boolean
+          sponsored: boolean
+          views: number
+          commission: string | null
+          cookie_days: string | null
+          specifications: any
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          brand: string
+          model: string
+          description: string
+          short_description?: string | null
+          website: string
+          affiliate_url?: string | null
+          link_type?: string | null
+          image_url?: string | null
+          rating?: number
+          review_count?: number
+          pricing: string
+          pricing_type: string
+          category_id: string
+          verified?: boolean
+          sponsored?: boolean
+          views?: number
+          commission?: string | null
+          cookie_days?: string | null
+          specifications?: any
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          brand?: string
+          model?: string
+          description?: string
+          short_description?: string | null
+          website?: string
+          affiliate_url?: string | null
+          link_type?: string | null
+          image_url?: string | null
+          rating?: number
+          review_count?: number
+          pricing?: string
+          pricing_type?: string
+          category_id?: string
+          verified?: boolean
+          sponsored?: boolean
+          views?: number
+          commission?: string | null
+          cookie_days?: string | null
+          specifications?: any
+          created_at?: string
+        }
+      }
+      gear_tags: {
+        Row: {
+          gear_id: string
+          tag_id: string
+          created_at: string
+        }
+        Insert: {
+          gear_id: string
+          tag_id: string
+          created_at?: string
+        }
+        Update: {
+          gear_id?: string
+          tag_id?: string
+          created_at?: string
+        }
+      }
     }
   }
 }
