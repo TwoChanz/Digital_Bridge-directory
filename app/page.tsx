@@ -103,10 +103,16 @@ export default async function HomePage() {
       <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-gray-900/95 dark:supports-[backdrop-filter]:bg-gray-900/60 dark:border-gray-800">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Building2 className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">Digital Blueprint</span>
-            </div>
+            <Link href="/" className="flex items-center space-x-2">
+              <Image
+                src="/logo.svg"
+                alt="Digital Blueprint"
+                width={200}
+                height={48}
+                className="h-10 w-auto text-gray-900 dark:text-white"
+                priority
+              />
+            </Link>
             <nav className="hidden md:flex items-center space-x-6">
               <Link
                 href="/categories"
@@ -465,10 +471,15 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Building2 className="h-6 w-6" />
-                <span className="text-xl font-bold">Digital Blueprint</span>
-              </div>
+              <Link href="/" className="inline-block mb-4">
+                <Image
+                  src="/logo.svg"
+                  alt="Digital Blueprint"
+                  width={180}
+                  height={44}
+                  className="h-9 w-auto brightness-0 invert"
+                />
+              </Link>
               <p className="text-gray-400 dark:text-gray-500">
                 Digital Blueprint — Mapping the Future of Construction Technology
               </p>
