@@ -238,6 +238,39 @@ export async function fetchStats(): Promise<{
 }
 
 /**
+ * Fetch a single category by slug
+ */
+export async function fetchCategoryBySlug(slug: string): Promise<Category | undefined> {
+  if (!isSupabaseConfigured()) {
+    return mockCategories.find((cat) => cat.slug === slug);
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) throw error;
+    if (!data) return undefined;
+
+    return {
+      id: data.id,
+      name: data.name,
+      slug: data.slug,
+      description: data.description,
+      color: data.color || 'bg-blue-500',
+      icon: data.icon,
+      count: 0, // Count can be calculated separately if needed
+    };
+  } catch (error) {
+    console.error('Error fetching category from Supabase:', error);
+    return mockCategories.find((cat) => cat.slug === slug);
+  }
+}
+
+/**
  * Fetch all tools
  */
 export async function fetchAllTools(): Promise<Tool[]> {

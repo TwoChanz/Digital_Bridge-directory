@@ -69,6 +69,10 @@ export default function RootLayout({
           data-domain="constructiveblueprint.com"
           src="https://plausible.io/js/script.js"
         ></script>
+
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5941945417173748"
+                crossOrigin="anonymous"></script>
       </head>
       <body className={inter.className}>
         <ThemeProvider

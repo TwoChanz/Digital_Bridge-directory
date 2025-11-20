@@ -1,0 +1,36 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="arvrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6b21a8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#arvrGradient)"/>
+
+  <!-- Hexagon Pattern -->
+  <g opacity="0.1" stroke="white" stroke-width="2" fill="none">
+    <path d="M900 80L930 100L930 140L900 160L870 140L870 100Z"/>
+    <path d="M960 80L990 100L990 140L960 160L930 140L930 100Z"/>
+    <path d="M1020 80L1050 100L1050 140L1020 160L990 140L990 100Z"/>
+    <path d="M930 150L960 170L960 210L930 230L900 210L900 170Z"/>
+    <path d="M990 150L1020 170L1020 210L990 230L960 210L960 170Z"/>
+  </g>
+
+  <!-- VR Headset Icon -->
+  <g transform="translate(100, 75)">
+    <rect width="150" height="150" rx="20" fill="white" opacity="0.15"/>
+    <rect x="35" y="55" width="80" height="40" rx="20" fill="white"/>
+    <circle cx="55" cy="75" r="12" fill="#a855f7"/>
+    <circle cx="95" cy="75" r="12" fill="#a855f7"/>
+    <path d="M30 75H20M120 75H130" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    <rect x="65" y="98" width="20" height="8" rx="4" fill="white" opacity="0.6"/>
+  </g>
+
+  <text x="300" y="140" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="white">
+    AR/VR
+  </text>
+  <text x="300" y="185" font-family="system-ui, sans-serif" font-size="24" font-weight="400" fill="white" opacity="0.9">
+    Augmented & Virtual Reality for immersive visualization
+  </text>
+</svg>

@@ -1,0 +1,36 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f766e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#fieldGradient)"/>
+
+  <!-- Toolbox Pattern -->
+  <g opacity="0.12" stroke="white" stroke-width="3" fill="none">
+    <circle cx="920" cy="100" r="30"/>
+    <path d="M920 70V130M890 100H950"/>
+    <circle cx="1000" cy="100" r="30"/>
+    <path d="M985 85L1015 115M985 115L1015 85"/>
+    <circle cx="1080" cy="100" r="30"/>
+    <rect x="1065" y="85" width="30" height="30" rx="4"/>
+  </g>
+
+  <!-- Wrench/Tool Icon -->
+  <g transform="translate(100, 75)">
+    <rect width="150" height="150" rx="20" fill="white" opacity="0.15"/>
+    <path d="M70 45L90 65L65 90L45 70L50 65Q52 63 55 63T60 65L65 60Q67 58 70 58T75 60Z" fill="white" stroke="white" stroke-width="2"/>
+    <circle cx="88" cy="62" r="8" fill="white" stroke="#14b8a6" stroke-width="3"/>
+    <path d="M50 90L45 95L55 105L60 100" fill="white"/>
+    <rect x="75" y="95" width="35" height="10" rx="5" fill="white" transform="rotate(-45 92.5 100)"/>
+  </g>
+
+  <text x="300" y="140" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="white">
+    Field Tools
+  </text>
+  <text x="300" y="185" font-family="system-ui, sans-serif" font-size="24" font-weight="400" fill="white" opacity="0.9">
+    On-site construction tools & apps for field operations
+  </text>
+</svg>

@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { SearchButton } from "@/components/search-button"
 import { CompareButton } from "@/components/compare-button"
+import { AffiliateCtaButton } from "@/components/affiliate-cta-button"
 import { fetchToolBySlug, fetchToolsByCategory } from "@/lib/data-supabase"
 import { getToolLogoUrl, buildAffiliateUrl, getCtaButtonText } from "@/lib/helpers"
 import type { Tool } from "@/types"
@@ -236,12 +237,15 @@ export default async function ToolDetailPage({
 
             {/* CTA */}
             <div className="flex flex-col gap-3 min-w-[200px]">
-              <Link href={affiliateLink} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="w-full gap-2">
-                  {getCtaButtonText(tool.linkType)}
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-              </Link>
+              <AffiliateCtaButton
+                href={affiliateLink}
+                toolName={tool.name}
+                toolSlug={tool.slug}
+                linkType={tool.linkType}
+                buttonText={getCtaButtonText(tool.linkType)}
+                variant="primary"
+                size="lg"
+              />
 
               <CompareButton
                 toolSlug={tool.slug}
@@ -404,16 +408,15 @@ export default async function ToolDetailPage({
 
                 <Separator />
 
-                <Link
+                <AffiliateCtaButton
                   href={affiliateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button className="w-full gap-2">
-                    Visit {tool.name}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                  toolName={tool.name}
+                  toolSlug={tool.slug}
+                  linkType={tool.linkType}
+                  buttonText={`Visit ${tool.name}`}
+                  variant="sidebar"
+                  size="default"
+                />
 
                 {tool.linkType === "Affiliate" && (
                   <p className="text-xs text-muted-foreground text-center">

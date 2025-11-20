@@ -1,0 +1,42 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bimGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bimGradient)"/>
+
+  <!-- Grid Pattern -->
+  <g opacity="0.1">
+    <path d="M0 0L1200 0M0 60L1200 60M0 120L1200 120M0 180L1200 180M0 240L1200 240M0 300L1200 300" stroke="white" stroke-width="1"/>
+    <path d="M0 0L0 300M200 0L200 300M400 0L400 300M600 0L600 300M800 0L800 300M1000 0L1000 300M1200 0L1200 300" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- 3D Building Wireframe -->
+  <g opacity="0.15" stroke="white" stroke-width="2" fill="none">
+    <path d="M900 80L950 50L1050 50L1100 80V220L1050 250L950 250L900 220Z"/>
+    <path d="M950 50V250M1050 50V250"/>
+    <path d="M900 120H1100M900 160H1100M900 200H1100"/>
+    <path d="M925 80V220M975 80V220M1025 80V220M1075 80V220"/>
+  </g>
+
+  <!-- Icon -->
+  <g transform="translate(100, 75)">
+    <rect width="150" height="150" rx="20" fill="white" opacity="0.15"/>
+    <path d="M45 45L75 25L105 45V125H45V45Z" fill="white" stroke="white" stroke-width="3"/>
+    <rect x="55" y="60" width="15" height="15" fill="#3b82f6"/>
+    <rect x="80" y="60" width="15" height="15" fill="#3b82f6"/>
+    <rect x="55" y="85" width="15" height="15" fill="#3b82f6"/>
+    <rect x="80" y="85" width="15" height="15" fill="#3b82f6"/>
+    <rect x="55" y="110" width="15" height="15" fill="#3b82f6"/>
+  </g>
+
+  <text x="300" y="140" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="white">
+    BIM Software
+  </text>
+  <text x="300" y="185" font-family="system-ui, sans-serif" font-size="24" font-weight="400" fill="white" opacity="0.9">
+    Building Information Modeling tools for design & collaboration
+  </text>
+</svg>
