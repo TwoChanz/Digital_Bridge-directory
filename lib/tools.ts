@@ -114,6 +114,59 @@ export async function getCategory(slug: string) {
 }
 
 /**
+ * Fetch tools by category slug
+ */
+export async function getToolsByCategory(categorySlug: string) {
+  try {
+    const { data, error } = await supabase
+      .from('tools')
+      .select(`
+        *,
+        category:categories(id, slug, name, icon, color),
+        platforms:tool_platforms(platform:platforms(id, name, icon)),
+        tags:tool_tags(tag:tags(id, name, slug))
+      `)
+      .eq('category.slug', categorySlug)
+      .eq('status', 'approved')
+      .order('sponsored', { ascending: false })
+      .order('featured', { ascending: false })
+      .order('rating', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching tools by category:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Exception fetching tools by category:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all platforms
+ */
+export async function getPlatforms() {
+  try {
+    const { data, error } = await supabase
+      .from('platforms')
+      .select('*')
+      .order('name')
+
+    if (error) {
+      console.error('Error fetching platforms:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Exception fetching platforms:', error)
+    return []
+  }
+}
+
+/**
  * Get tool count by category
  */
 export async function getToolCountByCategory(categorySlug: string) {
