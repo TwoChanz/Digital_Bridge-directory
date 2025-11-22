@@ -12,9 +12,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Type definitions for database tables
+// Type definitions for database tables (using UUIDs)
 export type Tool = {
-  id: number
+  id: string // UUID
   slug: string
   name: string
   tagline?: string
@@ -23,7 +23,7 @@ export type Tool = {
   website_url?: string
   logo_url?: string
   hero_image_url?: string
-  category_id?: number
+  category_id?: string // UUID
   pricing_type?: 'free' | 'freemium' | 'paid' | 'custom'
   pricing_details?: string
   rating?: number
@@ -33,13 +33,13 @@ export type Tool = {
   sponsored?: boolean
   featured?: boolean
   status?: 'pending' | 'approved' | 'rejected'
-  company_id?: number
+  company_id?: string // UUID
   created_at?: string
   updated_at?: string
 }
 
 export type Category = {
-  id: number
+  id: string // UUID
   slug: string
   name: string
   description?: string
@@ -50,19 +50,19 @@ export type Category = {
 }
 
 export type Platform = {
-  id: number
+  id: string // UUID
   name: string
   icon?: string
 }
 
 export type Tag = {
-  id: number
+  id: string // UUID
   name: string
   slug: string
 }
 
 export type BlogPost = {
-  id: number
+  id: string // UUID
   slug: string
   title: string
   excerpt?: string

@@ -168,11 +168,13 @@ export async function searchTools(query: string) {
 /**
  * Increment tool view count
  */
-export async function incrementToolViews(toolId: number) {
+export async function incrementToolViews(toolId: string) {
   try {
-    const { error } = await supabase.rpc('increment_tool_views', {
-      tool_id: toolId,
-    })
+    // Simple increment using update
+    const { error } = await supabase
+      .from('tools')
+      .update({ view_count: supabase.raw('view_count + 1') })
+      .eq('id', toolId)
 
     if (error) {
       console.error('Error incrementing views:', error)
