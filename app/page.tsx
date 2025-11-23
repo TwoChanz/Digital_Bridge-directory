@@ -1,6 +1,3 @@
-"use client"
-
-import { useTheme } from "next-themes"
 import {
   Search,
   Plus,
@@ -18,97 +15,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"
+import ThemeToggle from "@/components/ThemeToggle"
+import { getCategories, getTools } from "@/lib/tools"
 
-const categories = [
-  {
-    id: "bim-software",
-    name: "BIM Software",
-    icon: Building2,
-    description: "Building Information Modeling tools",
-    count: 45,
-    color: "bg-blue-500",
-  },
-  {
-    id: "drone-mapping",
-    name: "Drone Mapping",
-    icon: Drone,
-    description: "Aerial surveying and mapping solutions",
-    count: 28,
-    color: "bg-green-500",
-  },
-  {
-    id: "ar-vr",
-    name: "AR/VR",
-    icon: Glasses,
-    description: "Augmented and Virtual Reality tools",
-    count: 32,
-    color: "bg-purple-500",
-  },
-  {
-    id: "estimating",
-    name: "Estimating",
-    icon: Calculator,
-    description: "Cost estimation and bidding tools",
-    count: 38,
-    color: "bg-orange-500",
-  },
-  {
-    id: "project-management",
-    name: "Project Management",
-    icon: FileText,
-    description: "Construction project management platforms",
-    count: 52,
-    color: "bg-red-500",
-  },
-  {
-    id: "field-tools",
-    name: "Field Tools",
-    icon: Wrench,
-    description: "On-site construction tools and apps",
-    count: 41,
-    color: "bg-teal-500",
-  },
-]
-
-const featuredListings = [
-  {
-    id: "revit",
-    name: "Autodesk Revit",
-    category: "BIM Software",
-    description: "Industry-leading BIM software for architectural design and documentation",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.5,
-    pricing: "From $290/month",
-    tags: ["BIM", "Architecture", "MEP", "Structural"],
-    verified: true,
-    sponsored: true,
-  },
-  {
-    id: "procore",
-    name: "Procore",
-    category: "Project Management",
-    description: "All-in-one construction management platform",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.3,
-    pricing: "Custom pricing",
-    tags: ["Project Management", "Collaboration", "Mobile"],
-    verified: true,
-    sponsored: true,
-  },
-  {
-    id: "pix4d",
-    name: "Pix4D",
-    category: "Drone Mapping",
-    description: "Professional drone mapping and photogrammetry software",
-    logo: "/placeholder.svg?height=60&width=60",
-    rating: 4.4,
-    pricing: "From $350/month",
-    tags: ["Photogrammetry", "Surveying", "3D Mapping"],
-    verified: true,
-    sponsored: false,
-  },
-]
+// Icon mapping for categories
+const iconMap: Record<string, any> = {
+  Building2,
+  Drone,
+  Glasses,
+  Calculator,
+  FileText,
+  Wrench,
+}
 
 const blogPosts = [
   {
@@ -135,26 +53,15 @@ const blogPosts = [
   },
 ]
 
-export default function HomePage() {
-  function ThemeToggle() {
-    const { theme, setTheme } = useTheme()
-    const [mounted, setMounted] = useState(false)
+export default async function HomePage() {
+  // Fetch real data from Supabase
+  const categories = await getCategories()
+  const featuredTools = await getTools()
 
-    useEffect(() => setMounted(true), [])
-    if (!mounted) return null
-
-    return (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="w-9 h-9 p-0 hover:bg-gray-200 dark:hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
-      >
-        {theme === "dark" ? "☀️" : "🌙"}
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    )
-  }
+  // Get featured/sponsored tools first, then top-rated
+  const featuredListings = featuredTools
+    .filter(tool => tool.featured || tool.sponsored)
+    .slice(0, 3)
 
   return (
     <div className="min-h-screen bg-background">
@@ -230,7 +137,7 @@ export default function HomePage() {
           <div className="flex justify-center space-x-8 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-center">
               <Wrench className="h-4 w-4 mr-1" />
-              <span>500+ Tools</span>
+              <span>{featuredTools.length}+ Tools</span>
             </div>
             <div className="flex items-center">
               <Users className="h-4 w-4 mr-1" />
@@ -255,30 +162,35 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {categories.map((category) => (
-              <Link key={category.id} href={`/category/${category.id}`}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:shadow-xl">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className={`p-2 rounded-lg ${category.color} flex-shrink-0`}>
-                        <category.icon className="h-6 w-6 text-white" />
+            {categories.map((category) => {
+              const IconComponent = iconMap[category.icon] || Building2
+              const toolCount = featuredTools.filter(tool => tool.category?.slug === category.slug).length
+
+              return (
+                <Link key={category.id} href={`/category/${category.slug}`}>
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:shadow-xl">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className={`p-2 rounded-lg ${category.color} flex-shrink-0`}>
+                          <IconComponent className="h-6 w-6 text-white" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <CardTitle className="text-lg dark:text-white truncate">{category.name}</CardTitle>
+                          <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300 mt-1">
+                            {toolCount} tools
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <CardTitle className="text-lg dark:text-white truncate">{category.name}</CardTitle>
-                        <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300 mt-1">
-                          {category.count} tools
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="dark:text-gray-400 text-sm leading-relaxed">
-                      {category.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="dark:text-gray-400 text-sm leading-relaxed">
+                        {category.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -312,7 +224,7 @@ export default function HomePage() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
                       <img
-                        src={tool.logo || "/placeholder.svg"}
+                        src={tool.logo_url || "/placeholder.svg"}
                         alt={`${tool.name} logo`}
                         className="w-12 h-12 rounded-lg object-cover"
                       />
@@ -325,7 +237,7 @@ export default function HomePage() {
                             </Badge>
                           )}
                         </CardTitle>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{tool.category}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{tool.category?.name}</p>
                       </div>
                     </div>
                     {tool.sponsored && (
@@ -336,23 +248,27 @@ export default function HomePage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="mb-4 dark:text-gray-400">{tool.description}</CardDescription>
+                  <CardDescription className="mb-4 dark:text-gray-400">
+                    {tool.short_description || tool.description}
+                  </CardDescription>
 
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-1">
                       <div className="flex text-yellow-400">
-                        {"★".repeat(Math.floor(tool.rating))}
-                        {"☆".repeat(5 - Math.floor(tool.rating))}
+                        {"★".repeat(Math.floor(tool.rating || 0))}
+                        {"☆".repeat(5 - Math.floor(tool.rating || 0))}
                       </div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">({tool.rating})</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">({tool.rating || 0})</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">{tool.pricing}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      {tool.pricing_details || tool.pricing_type}
+                    </span>
                   </div>
 
                   <div className="flex flex-wrap gap-1 mb-4">
-                    {tool.tags.slice(0, 3).map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs dark:border-gray-600 dark:text-gray-300">
-                        {tag}
+                    {tool.tags?.slice(0, 3).map((tagObj: any) => (
+                      <Badge key={tagObj.tag.id} variant="outline" className="text-xs dark:border-gray-600 dark:text-gray-300">
+                        {tagObj.tag.name}
                       </Badge>
                     ))}
                   </div>
@@ -361,7 +277,7 @@ export default function HomePage() {
                     asChild
                     className="w-full hover:bg-opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
                   >
-                    <Link href={`/tool/${tool.id}`}>View Tool</Link>
+                    <Link href={`/tool/${tool.slug}`}>View Tool</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -466,26 +382,13 @@ export default function HomePage() {
             <div>
               <h3 className="font-semibold mb-4">Categories</h3>
               <ul className="space-y-2 text-gray-400 dark:text-gray-500">
-                <li>
-                  <Link href="/category/bim-software" className="hover:text-white dark:hover:text-gray-300">
-                    BIM Software
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/category/drone-mapping" className="hover:text-white dark:hover:text-gray-300">
-                    Drone Mapping
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/category/ar-vr" className="hover:text-white dark:hover:text-gray-300">
-                    AR/VR
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/category/estimating" className="hover:text-white dark:hover:text-gray-300">
-                    Estimating
-                  </Link>
-                </li>
+                {categories.slice(0, 4).map((category) => (
+                  <li key={category.id}>
+                    <Link href={`/category/${category.slug}`} className="hover:text-white dark:hover:text-gray-300">
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>
