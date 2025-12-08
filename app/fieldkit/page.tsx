@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Building2, Scan, Drone, Satellite, Zap, Wrench } from 'lucide-react'
+import { Building2, Scan, Plane, Satellite, Zap, Wrench } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -18,7 +18,7 @@ const categories = [
     name: 'Drones',
     slug: 'drones',
     description: 'UAVs and payloads for aerial mapping and photogrammetry',
-    icon: Drone,
+    icon: Plane,
     color: 'bg-green-500',
     count: 8
   },

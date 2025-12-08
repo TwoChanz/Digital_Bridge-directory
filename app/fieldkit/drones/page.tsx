@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Building2, Drone, ArrowLeft } from 'lucide-react'
+import { Building2, Plane, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import GearCard from '../components/GearCard'
@@ -218,7 +218,7 @@ export default function DronesPage() {
             </Button>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <Drone className="w-8 h-8 mr-3 text-green-600" />
+                <Plane className="w-8 h-8 mr-3 text-green-600" />
                 Mapping Drones
               </h1>
               <p className="text-gray-600 mt-1">
@@ -260,7 +260,7 @@ export default function DronesPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <Drone className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <Plane className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No drones found</h3>
                 <p className="text-gray-600 mb-4">
                   Try adjusting your filters or search terms
